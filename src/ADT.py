@@ -11,9 +11,6 @@ class AVL_Tree:
     #ADT Methods
     def __init__(self):
         self.root = None
-        self.total = 0
-        self.countries = {}
-     
         
     def __insert(self, n, table_class, table):
         if table[0] < n.obj.name:
@@ -140,12 +137,22 @@ class AVL_Tree:
             self.inOrder(n.right)
             
     #Data analysis methods
-    def c_w_m_participants(self, n):
+    def c_w_m_participants(self, n, c_dict):
         if n != None:
-            if n.obj.country not in self.countries:
-                self.countries[n.obj.country] = 1
+            if n.obj.country not in c_dict:
+                c_dict[n.obj.country] = 1
             else:
-                self.countries[n.obj.country] += 1
-            self.c_w_m_participants(n.left)
-            self.c_w_m_participants(n.right)
-        return self.countries
+                c_dict[n.obj.country] += 1
+            self.c_w_m_participants(n.left, c_dict)
+            self.c_w_m_participants(n.right, c_dict)
+        return c_dict
+    
+    def s_w_m_participants(self, n, s_dict):
+        if n != None:
+            if n.obj.sport not in s_dict:
+                s_dict[n.obj.sport] = 1
+            else:
+                s_dict[n.obj.sport] += 1
+            self.s_w_m_participants(n.left, s_dict)
+            self.s_w_m_participants(n.right, s_dict)
+        return s_dict

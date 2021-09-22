@@ -5,7 +5,6 @@ from tableClasses import *
 import seaborn as sns
 sns.set_style("whitegrid")
 
-
 def create_tree(path, t_class):
     df = pd.read_excel(f"../Datasets/{path}.xlsx")
     tree = AVL_Tree()
@@ -13,9 +12,8 @@ def create_tree(path, t_class):
         tree.insert(t_class, row)
     return tree
 
-def get_table_values(root, func):
-    dic = {}
-    dic = func(root, dic)
+def get_table_values(root, func, attr):
+    dic = func(root, {}, attr)
     dic = dict(sorted(dic.items(), key=lambda item: item[1], reverse=True))
     dic = {k: dic[k] for k in list(dic)[:10]}
     return dic
@@ -28,17 +26,22 @@ def create_results(dic):
 
 
 #Country with the most participants
-t = create_tree("Athletes", Athletes)
-c = get_table_values(t.root, t.c_w_m_participants)
+t1 = create_tree("Athletes", Athletes)
+countries = get_table_values(t1.root, t1.data_analysis, "country")
 print("The country(ies) with the most participants is: ")
-create_results(c)
+create_results(countries)
 
 #Sport with the most participants
-s = get_table_values(t.root, t.s_w_m_participants)
+t2 = create_tree("Athletes", Athletes)
+sports = get_table_values(t2.root, t2.data_analysis, "sport")
 print("\nThe sport(s) with the most participants is: ")
-create_results(s)
+create_results(sports)
 
 #Country with the most coaches
+t3 = create_tree("Coaches", Coaches)
+coaches = get_table_values(t3.root, t3.data_analysis, "country")
+print("\nThe country(ies) with the most coaches is: ")
+create_results(coaches)
 
 #Sport with the most coaches
 

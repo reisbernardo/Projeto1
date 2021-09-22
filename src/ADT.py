@@ -137,22 +137,13 @@ class AVL_Tree:
             self.inOrder(n.right)
             
     #Data analysis methods
-    def c_w_m_participants(self, n, c_dict):
+    def data_analysis(self, n, dic, attr):
         if n != None:
-            if n.obj.country not in c_dict:
-                c_dict[n.obj.country] = 1
+            attribute = getattr(n.obj, attr)
+            if attribute not in dic:
+                dic[attribute] = 1
             else:
-                c_dict[n.obj.country] += 1
-            self.c_w_m_participants(n.left, c_dict)
-            self.c_w_m_participants(n.right, c_dict)
-        return c_dict
-    
-    def s_w_m_participants(self, n, s_dict):
-        if n != None:
-            if n.obj.sport not in s_dict:
-                s_dict[n.obj.sport] = 1
-            else:
-                s_dict[n.obj.sport] += 1
-            self.s_w_m_participants(n.left, s_dict)
-            self.s_w_m_participants(n.right, s_dict)
-        return s_dict
+                dic[attribute] += 1
+            self.data_analysis(n.left, dic, attr)
+            self.data_analysis(n.right, dic, attr)
+        return dic

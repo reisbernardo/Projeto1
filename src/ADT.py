@@ -1,3 +1,4 @@
+# Node class that stores each table class and its attributes 
 class Node:
     def __init__(self, table_class, table):
         self.obj = table_class(table)
@@ -12,28 +13,29 @@ class AVL_Tree:
     def __init__(self):
         self.root = None
         
-    def __insert(self, n, table_class, table):
-        if table[0] < n.obj.name:
+    def __insert(self, n, table_class, table, attr):
+        attribute = getattr(n.obj, attr)
+        if table[0] < attribute:
             if(n.left == None):
                 n.left = Node(table_class, table)
                 n.left.parent = n
                 self.__inspect_insertion(n.left)
             else:
-                self.__insert(n.left, table_class, table)
-        elif table[0] > n.obj.name:
+                self.__insert(n.left, table_class, table, attr)
+        elif table[0] > attribute:
             if(n.right == None):
                 n.right = Node(table_class, table)
                 n.right.parent = n
                 self.__inspect_insertion(n.right)
             else:
-                self.__insert(n.right, table_class, table)
+                self.__insert(n.right, table_class, table, attr)
 
         
-    def insert(self, table_class, table):
+    def insert(self, table_class, table, attr):
         if self.root == None:
             self.root = Node(table_class, table)
         else:
-            self.__insert(self.root, table_class, table)
+            self.__insert(self.root, table_class, table, attr)
     
     
     def __inspect_insertion(self, n, path=[]):
@@ -136,14 +138,22 @@ class AVL_Tree:
             print(n.obj.name, end=" ")
             self.inOrder(n.right)
             
-    #Data analysis methods
-    def data_analysis(self, n, dic, attr):
+    # Data analysis method, it stores the data acording to attribute value passed into the function
+    # If its a number then it will add all occurrences
+    # If its an atribute then it will just create one instance in the dictionary
+    # returns a dictionary to be used in ploting the charts
+    def data_analysis(self, n, dic, attr1, attr2):
         if n != None:
-            attribute = getattr(n.obj, attr)
-            if attribute not in dic:
-                dic[attribute] = 1
+            attribute1 = getattr(n.obj, attr1)
+            if type(attr2) is not int:
+                attribute2 = getattr(n.obj, attr2)
             else:
-                dic[attribute] += 1
-            self.data_analysis(n.left, dic, attr)
-            self.data_analysis(n.right, dic, attr)
+                attribute2 = attr2
+                
+            if attribute1 not in dic:
+                dic[attribute1] = attribute2
+            else:
+                dic[attribute1] += attribute2
+            self.data_analysis(n.left, dic, attr1, attr2)
+            self.data_analysis(n.right, dic, attr1, attr2)
         return dic

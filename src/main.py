@@ -28,11 +28,11 @@ def rename(df):
     try:
         df['NOC'] = df['NOC'].replace("ROC", "Russia")
         df['NOC'] = df['NOC'].replace("People's Republic of China", "China")
-        df['NOC'] = df['NOC'].replace("United States of America", "EUA")
+        df['NOC'] = df['NOC'].replace("United States of America", "USA")
     except KeyError:
         df['Team/NOC'] = df['Team/NOC'].replace("ROC", "Russia")
         df['Team/NOC'] = df['Team/NOC'].replace("People's Republic of China", "China")
-        df['Team/NOC'] = df['Team/NOC'].replace("United States of America", "EUA")
+        df['Team/NOC'] = df['Team/NOC'].replace("United States of America", "USA")
     finally:
         return df
 
